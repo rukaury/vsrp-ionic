@@ -1,0 +1,27 @@
+page-question {
+
+}
+
+.submit-btn{
+    background: #f26e40;
+    color: #fff;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.submit-btn:hover{
+    background: #fff;
+    color: #f26e40;
+}
+
+.submit-btn:focus{
+    background: #fff;
+    color: #f26e40;
+}
+
+.bottom-view{
+    position: absolute;
+    left: 0;
+    bottom: 0; 
+    right : 0;
+}

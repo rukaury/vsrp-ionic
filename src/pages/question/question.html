@@ -1,0 +1,44 @@
+<ion-header class="page-header">
+    <ion-navbar>
+      <ion-title>Question</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only color="royal">
+          <ion-icon style="color:#f26e40" name="star-outline"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+  
+    <ion-card *ngIf="!this.globalVars.getIsConnected()">
+      <ion-card-header>Offline</ion-card-header>
+      <ion-card-content padding>
+        <button class='btn btn-primary' (click)="this.globalVars.open('wifi')">Open Wifi settings</button>
+      </ion-card-content>
+    </ion-card>
+  
+    <div *ngIf="this.globalVars.getIsConnected()">
+      <h1>{{title}}</h1>
+      <h3>{{text}}</h3>
+      <div *ngIf="this.is_mcq">
+        <ion-list radio-group>
+          <ion-list-header>
+            Answers
+          </ion-list-header>
+          <ion-item *ngFor="let answer of allAnswers; let j = index">
+            <ion-label>{{answer.getText()}}</ion-label>
+            <ion-radio [value]="j"></ion-radio>
+          </ion-item>
+        </ion-list>
+      </div>
+      <p *ngIf="!this.is_mcq">{{answer}}</p>
+      <div class="row bottom-view" margin>
+          <div class="col s12">
+              <button class="btn btn-lg submit-btn" type="button" name="submit" (click)="goToHomePage(test)">Submit</button>
+          </div>
+      </div>
+    </div>
+  
+  </ion-content>
+  

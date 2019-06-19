@@ -1,0 +1,7 @@
+{
+  "name": "vsr",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

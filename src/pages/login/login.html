@@ -1,0 +1,45 @@
+<ion-content class="container">
+
+    <ion-card class="container" *ngIf="!this.globalVars.getIsConnected()">
+        <ion-card-header>Offline</ion-card-header>
+            <ion-card-content padding>
+                <button class='btn btn-primary' (click)="this.globalVars.open('wifi')">Open Wifi settings</button>
+            </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="this.globalVars.getIsConnected()" class="container">    
+        <div>
+            <ion-img class="app-icon" width="150" height="100" src="../../assets/imgs/app_icon.png"></ion-img>
+            <p class="white-text app-name-text">Virtual Study Room</p>
+        </div>
+
+        <div class="row">
+            <form class="col s12">
+                    <p class="white-text credentials-text">Please enter your credentials.</p>
+                <div class="row" margin>
+                    <div class="input-group input-group-lg">
+                        <input class="form-control" [(ngModel)]="registerCredentials.username" placeholder="Username" id="username" type="text" name="username">
+                    </div>
+                    <div class="input-group input-group-lg">
+                        <input class="form-control" [(ngModel)]="registerCredentials.password" placeholder="Password" id="password" type="password" name="pass">
+                    </div>
+                </div>
+                <div class="row" margin>
+                    <div class="col s12">
+                        <button class="btn btn-lg login-btn" type="submit" name="action" (click)="login()">Login</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col s12 white-text"><u>Forgot Password?</u></p>
+                </div>
+            </form>
+        </div>
+
+        
+        <div class="row bottom-view">
+            <p class="col s12 white-text">VSR Copyright © 2018</p>
+        </div>
+    </div>
+
+</ion-content>
+  

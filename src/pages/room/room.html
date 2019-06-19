@@ -1,0 +1,49 @@
+<ion-header class="page-header">
+    <ion-navbar>
+      <ion-title>{{name}}</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only color="royal">
+          <ion-icon style="color:#f26e40" name="add-circle-outline"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+  
+    <ion-card *ngIf="!this.globalVars.getIsConnected()">
+      <ion-card-header>Offline</ion-card-header>
+      <ion-card-content padding>
+        <button class='btn btn-primary' (click)="this.globalVars.open('wifi')">Open Wifi settings</button>
+      </ion-card-content>
+    </ion-card>
+  
+    <div *ngIf="this.globalVars.getIsConnected()">
+        <div *ngIf="!(this.allQuestions === undefined || this.allQuestions.length == 0); else noQuestions">
+          <ion-list inset>
+              <ion-list-header>
+                Questions
+              </ion-list-header>
+        
+              <ion-item *ngFor="let question of allQuestions" (click)="goToQuestionPage(question.getUuid(), this.room_id)">
+                <h1>{{question.getTitle()}}</h1>
+                <h3>{{question.getText()}}</h3>
+                <h3 class="orange-text" *ngIf=" question.getIsMCQ() == true">MCQ: Yes</h3>
+                <h3 class="orange-text" *ngIf=" question.getIsMCQ() == false">MCQ: No</h3>
+                <ion-icon style="color:#f26e40" name="arrow-forward" item-end></ion-icon>
+              </ion-item>
+            </ion-list>
+          </div>
+          <ng-template #noQuestions>
+            <div text-center>
+              <ion-icon style="font-size:100px; color:#f26e40" name="sad"></ion-icon>
+              <h1>Questions are not created yet.</h1>
+            </div>
+          </ng-template>
+          
+    </div>
+
+
+  
+  </ion-content>
+  

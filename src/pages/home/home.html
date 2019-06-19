@@ -1,0 +1,46 @@
+<ion-header class="page-header">
+  <ion-toolbar>
+    <ion-buttons start>
+      <button ion-button menuToggle color="royal">
+        <ion-icon style="color:#f26e40" name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Rooms</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal">
+        <ion-icon style="color:#f26e40" name="add-circle-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngIf="!this.globalVars.getIsConnected()">
+    <ion-card-header>Offline</ion-card-header>
+    <ion-card-content padding>
+      <button class='btn btn-primary' (click)="this.globalVars.open('wifi')">Open Wifi settings</button>
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="this.globalVars.getIsConnected()">
+    <div *ngIf="!(this.allRooms === undefined || this.allRooms.length == 0); else noQuestions">
+      <p padding-left="1 px" padding-top="1px">Active</p>
+      <ion-card *ngFor="let room of allRooms" (click)="goToRoomPage(room.getUuid(), room.getName())" tappable>
+        <img src="https://source.unsplash.com/1600x900/?college,math,science,law"/>
+        <ion-card-content>
+          <ion-card-title>{{room.getName()}}</ion-card-title>
+          <p class="orange-text">Room settings</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ng-template #noRooms>
+        <div text-center>
+          <ion-icon style="font-size:100px; color:#f26e40" name="sad"></ion-icon>
+          <h1>Rooms are not created yet.</h1>
+        </div>
+      </ng-template>
+  </div>
+
+</ion-content>
