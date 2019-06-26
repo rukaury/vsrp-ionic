@@ -24,10 +24,12 @@ export class RestProvider {
           'Content-Type': 'application/json'
         }
       };
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         this.http.post(this.apiUrl + '/auth/login', JSON.stringify({username: username, password: password}), this.reqOpts).subscribe(data => {
           resolve(data);
-        }, err => {console.log('Login Error ...')});
+        }, err => {
+          reject(err);
+        });
       });
     }
 
@@ -38,11 +40,11 @@ export class RestProvider {
           'Authorization': 'Bearer ' + token,
         }
       };
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         this.http.get(this.apiUrl + '/rooms', this.reqOpts).subscribe(data => {
           resolve(data);
         }, err => {
-          console.log(err);
+          reject(err);
         });
       })
     }
@@ -54,11 +56,11 @@ export class RestProvider {
             'Authorization': 'Bearer ' + token,
           }
         };
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
           this.http.get(this.apiUrl + '/rooms/' + room_id, this.reqOpts).subscribe(data => {
             resolve(data);
           }, err => {
-            console.log(err);
+            reject(err);
           });
         })
       }
@@ -70,11 +72,11 @@ export class RestProvider {
               'Authorization': 'Bearer ' + token,
             }
           };
-          return new Promise(resolve => {
+          return new Promise((resolve, reject) => {
             this.http.get(this.apiUrl + '/rooms/' + room_id + '/questions/' + question_id, this.reqOpts).subscribe(data => {
               resolve(data);
             }, err => {
-              console.log(err);
+              reject(err);
             });
           })
         }

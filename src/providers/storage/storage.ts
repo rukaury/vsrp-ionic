@@ -3,7 +3,6 @@ import { Storage  } from '@ionic/storage';
 
 /*
   Generated class for the StorageProvider provider.
-
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
@@ -31,7 +30,6 @@ export class StorageProvider {
         }
       })
   }
-
   getToken() : Promise<string>{
     return this.storage.get(TOKEN);
   }
@@ -62,7 +60,12 @@ export class StorageProvider {
 
   // READ
   getUser(): Promise<User> {
-    return this.storage.get(USER);
+    return this.storage.get(USER).then((aUser: User) => {
+      if (!aUser) {
+        return null;
+      }
+      return this.storage.get(USER);
+    });
   }
 
   // UPDATE

@@ -24,6 +24,8 @@ export class HomePage {
     this.username = navParams.get('username');
     this.password = navParams.get('password');
     this.storage.getUser().then((val) => {
+      this.username = val.username;
+      this.password = val.password;
       this.token = val.token;
       this.getRooms();
     });
@@ -45,6 +47,20 @@ export class HomePage {
       this.allRooms[i] = room;
         }
         this.dataRetrieved = true;
+      }).catch(err => {
+        if((err.error.message == "Signature expired, Please sign in again" || "Token was Blacklisted, Please login In") && err.status == 401){
+          this.restProvider.login(this.username, this.password).then(data => {
+            this.jsonData = data;
+            this.storage.updateToken(this.jsonData.auth_token).then(aUser => {
+              this.token = aUser.token;
+              this.getRooms();
+            }).catch((err) => {
+              console.log("Token update: " + err);
+            })
+          }).catch((err) => {
+            console.log("Login: " + err);
+          })
+        }
       });
     loading.dismiss();
   }

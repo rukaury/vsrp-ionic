@@ -20,9 +20,8 @@ import {TestPage} from "../pages/test/test";
 import {SafeHtmlPipe} from "../pipes/safe-html/safe-html";
 import { RoomPage } from '../pages/room/room';
 import { QuestionPage } from '../pages/question/question';
-import { IonicStorageModule } from '@ionic/storage';
 import { StorageProvider } from '../providers/storage/storage';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -70,8 +69,6 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
     Network,
     OpenNativeSettings,
     GlobalVarsProvider,
-    StorageProvider,
-    NativeStorage,
     StorageProvider
   ]
 })

@@ -5,7 +5,6 @@ import { Question } from '../../Models/question';
 import { QuestionPage } from '../question/question';
 import { StorageProvider } from '../../providers/storage/storage';
 import { RestProvider } from '../../providers/rest/rest';
-import { Room } from '../../Models/room';
 
 @Component({
   selector: 'page-room',

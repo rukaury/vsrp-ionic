@@ -6,7 +6,7 @@ import { LoginPage } from '../pages/login/login';
 import { Network } from '@ionic-native/network';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { GlobalVarsProvider} from "../providers/global-vars/global-vars";
-import { StorageProvider } from '../providers/storage/storage';
+import { StorageProvider, User } from '../providers/storage/storage';
 import { HomePage } from '../pages/home/home';
 
 @Component({
@@ -22,7 +22,7 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       this.verifyConnectivity();
-      this.isUserLoggedIn();
+      this.setRootPage();
     });
   }
 
@@ -37,15 +37,10 @@ export class MyApp {
     });
   }
 
-  private isUserLoggedIn(){
-    let check : boolean = false;
-    this.storageProvider.getUser().then(aUser => {
-      this.rootPage = HomePage;
-    }).catch(err => {
-      this.rootPage = LoginPage;
-      console.log(err);
+  private setRootPage(){
+    this.storageProvider.getUser().then((aUser : User) => {
+      this.rootPage = aUser ? HomePage : LoginPage;
     });
-    return check;
   }
 
   private showConnectivityAlert() : void {

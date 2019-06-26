@@ -1,51 +1,55 @@
+page-login{
+    $white-color: #fff;
+    $main-color: #f26e40;
+    $height100: 100%;
 
-$white-color: #fff;
-$main-color: #f26e40;
-$height100: 100%;
+    .container {
+        background: #f26e40;
+        text-align: center;
+    }
 
-.container {
-    background: #f26e40;
-    text-align: center;
-}
+    .app-icon {
+        background: #f26e40;
+    }
 
-.app-icon {
-    background: #f26e40;
-}
+    .app-name-text{
+        font-weight: bold;
+        font-size: 16px;
+    }
 
-.app-name-text{
-    font-weight: bold;
-    font-size: 16px;
-}
+    .credentials-text{
+        font-size: 12px;
+    }
 
-.credentials-text{
-    font-size: 12px;
-}
+    .row-input{
+        background: #fff;
+        border-radius: 5px;
+    }
 
-.row-input{
-    background: #fff;
-    border-radius: 5px;
-}
+    .login-btn{
+        background: #fff;
+        color: #f26e40;
+        width: 100%;
+        border-radius: 5px;
+    }
 
-.login-btn{
-    background: #fff;
-    color: #f26e40;
-    width: 100%;
-    border-radius: 5px;
-}
+    .login-btn:hover{
+        background: #fd6a08;
+        color: #fff;
+    }
 
-.login-btn:hover{
-    background: #fd6a08;
-    color: #fff;
-}
+    .login-btn:focus{
+        background: #fd6a08;
+        color: #fff;
+    }
 
-.login-btn:focus{
-    background: #fd6a08;
-    color: #fff;
-}
-
-.bottom-view{
-    position: absolute;
-    left: 0;
-    bottom: 0; 
-    right : 0;
+    .bottom-view{
+        position: absolute;
+        left: 0;
+        bottom: 0; 
+        right : 0;
+    }
+    .content{
+        background: #f26e40;
+    }
 }
