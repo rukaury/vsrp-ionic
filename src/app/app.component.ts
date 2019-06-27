@@ -1,8 +1,8 @@
 // Angular
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 // Ionic
-import { Platform, MenuController, AlertController } from 'ionic-angular';
+import { Platform, MenuController, AlertController, NavController } from 'ionic-angular';
 
 // Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
@@ -15,15 +15,17 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { GlobalVarsProvider} from "../providers/global-vars/global-vars";
 import { StorageProvider, User } from '../providers/storage/storage';
 import { HomePage } from '../pages/home/home';
+import { RestProvider } from '../providers/rest/rest';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  
+  @ViewChild('content') navCtrl: NavController
   rootPage:any;
+  token : string;
 
-  constructor(private globalVars : GlobalVarsProvider, private settings : OpenNativeSettings, public network : Network, private alert :AlertController, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storageProvider: StorageProvider, private menuCtrl: MenuController) {
+  constructor(private globalVars : GlobalVarsProvider, private settings : OpenNativeSettings, public network : Network, private alert :AlertController, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storageProvider: StorageProvider, private menuCtrl: MenuController, private restProvider : RestProvider, private storage : StorageProvider) {
 	  this.initializeApp();
   }
 
@@ -54,6 +56,9 @@ export class MyApp {
   private setRootPage(){
     this.storageProvider.getUser().then((aUser : User) => {
       this.rootPage = aUser ? HomePage : LoginPage;
+      if(aUser){
+        this.token = aUser.token;
+      }
     });
   }
 
@@ -82,6 +87,14 @@ export class MyApp {
       ]
     });
     showAlert.present();
+  }
+
+  logout(){
+    this.restProvider.logout(this.token).then(() => {
+      this.storage.deleteUser();
+      this.menuCtrl.close();
+      this.navCtrl.push(LoginPage);
+    });
   }
 }
 

@@ -5,7 +5,6 @@ import { Room } from '../../Models/room';
 import { RoomPage } from '../room/room';
 import { RestProvider } from '../../providers/rest/rest';
 import { StorageProvider } from '../../providers/storage/storage';
-import { LoginPage } from '../login/login';
 import { AddRoomPage } from '../../components/add_room';
 
 @Component({
@@ -29,6 +28,7 @@ export class HomePage {
       cssClass: 'my-loading-class'
     });
     loading.present();
+    menu.enable(true);
     this.initializePage(0);
     loading.dismiss();
   }
@@ -39,7 +39,7 @@ export class HomePage {
         this.username = aUser.username;
         this.password = aUser.password;
         this.token = aUser.token;
-        this.getRooms();
+        //this.getRooms();
       }).catch((err => {
         this.initializePage(count++);
       }));
@@ -85,13 +85,6 @@ export class HomePage {
 
   openMenu() {
     this.menu.open();
-  }
-
-  logout(){
-    this.restProvider.logout(this.token).then(() => {
-      this.storage.deleteUser();
-      this.navCtrl.push(LoginPage, {});
-    });
   }
 
   presentAlert(title : string, message: string): void {

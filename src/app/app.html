@@ -1,1 +1,20 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<div>
+  <!--Default Menu-->
+  <ion-menu [content]="content">
+      <ion-header>
+          <ion-toolbar style="color:#f26e40">
+            <ion-title>Menu</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-item>
+                <ion-icon (click)="logout()" name="log-out" style="color:#f26e40" start padding> Logout</ion-icon>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+    </ion-menu>
+</div>
+
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>
+

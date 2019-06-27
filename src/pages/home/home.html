@@ -1,7 +1,7 @@
 <ion-header class="page-header">
   <ion-toolbar>
     <ion-buttons start>
-      <button menuToggle ion-button>
+      <button ion-button menuToggle (click)="openMenu">
         <ion-icon style="color:#f26e40" name="menu"></ion-icon>
       </button>
     </ion-buttons>
@@ -13,25 +13,6 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-menu [content]="mycontent">
-  <ion-header>
-      <ion-toolbar style="color:#f26e40">
-        <ion-title>Menu</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item>
-          <button (click)="logout()" ion-button style="background:#fff">
-            <ion-icon name="log-out" style="color:#f26e40" start padding> Logout</ion-icon> 
-          </button>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-</ion-menu>
-
-<ion-nav #mycontent></ion-nav>
 
 <ion-content>
 

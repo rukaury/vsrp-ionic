@@ -56,7 +56,7 @@ export class LoginPage {
   }
 
   goToHomePage() {
-      this.navCtrl.push(HomePage, {});
+      this.navCtrl.push(HomePage);
   }
 
   presentAlert(title : string, message: string): void {
