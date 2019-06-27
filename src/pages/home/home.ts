@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { NavController, LoadingController, NavParams, MenuController  } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, MenuController, AlertController  } from 'ionic-angular';
 import { GlobalVarsProvider } from "../../providers/global-vars/global-vars";
 import { Room } from '../../Models/room';
 import { RoomPage } from '../room/room';
@@ -20,7 +20,7 @@ export class HomePage {
   dataRetrieved: boolean;
   token = '';
 
-  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public menu : MenuController)
+  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public menu : MenuController, private alert : AlertController)
   {    
     let loading = this.loadingCtrl.create({
       content: '',
@@ -28,15 +28,24 @@ export class HomePage {
       cssClass: 'my-loading-class'
     });
     loading.present();
-    this.username = navParams.get('username');
-    this.password = navParams.get('password');
-    this.storage.getUser().then((val) => {
-      this.username = val.username;
-      this.password = val.password;
-      this.token = val.token;
-      this.getRooms();
-    });
+    this.initializePage(0);
     loading.dismiss();
+  }
+
+  initializePage(count: number){
+    if(count < 5){
+      this.storage.getUser().then((aUser) => {
+        this.username = aUser.username;
+        this.password = aUser.password;
+        this.token = aUser.token;
+        this.getRooms();
+      }).catch((err => {
+        this.initializePage(count++);
+      }));
+    }
+    else{
+      this.presentAlert('Info', 'Sorry an error has occured!');
+    }
   }
 
   getRooms(){
@@ -82,6 +91,15 @@ export class HomePage {
       this.storage.deleteUser();
       this.navCtrl.push(LoginPage, {});
     });
+  }
+
+  presentAlert(title : string, message: string): void {
+		let alert = this.alert.create({
+			title:  title,
+			message: message,
+			buttons: ['Ok']
+		});
+		alert.present();
   }
 }
 

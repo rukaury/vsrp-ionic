@@ -83,14 +83,5 @@ export class MyApp {
     });
     showAlert.present();
   }
-
-  public presentAlert(title : string, message: string): void {
-		let alert = this.alert.create({
-			title:  title,
-			message: message,
-			buttons: ['Ok']
-		});
-		alert.present();
-	}
 }
 
