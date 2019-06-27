@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {AlertController} from "ionic-angular";
-
 /*
   Generated class for the RestProvider provider.
 
@@ -33,11 +32,27 @@ export class RestProvider {
       });
     }
 
+  logout(token: string) {
+    this.reqOpts = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      };
+      return new Promise((resolve, reject) => {
+        this.http.post(this.apiUrl + '/auth/logout', JSON.stringify({}), this.reqOpts).subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+        });
+      });
+    }
+
   getRooms(token: string) {
     this.reqOpts = {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token,
+          'Authorization': 'Bearer ' + token
         }
       };
       return new Promise((resolve, reject) => {
@@ -49,37 +64,35 @@ export class RestProvider {
       })
     }
 
-    getRoomInfo(token: string, room_id: string) {
-      this.reqOpts = {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token,
-          }
-        };
-        return new Promise((resolve, reject) => {
-          this.http.get(this.apiUrl + '/rooms/' + room_id, this.reqOpts).subscribe(data => {
-            resolve(data);
-          }, err => {
-            reject(err);
-          });
-        })
-      }
-
-      getQuestionInfo(token: string, room_id: string, question_id: string) {
-        this.reqOpts = {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token,
-            }
-          };
-          return new Promise((resolve, reject) => {
-            this.http.get(this.apiUrl + '/rooms/' + room_id + '/questions/' + question_id, this.reqOpts).subscribe(data => {
-              resolve(data);
-            }, err => {
-              reject(err);
-            });
-          })
+  getRoomInfo(token: string, room_id: string) {
+    this.reqOpts = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
         }
+      };
+      return new Promise((resolve, reject) => {
+        this.http.get(this.apiUrl + '/rooms/' + room_id, this.reqOpts).subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+        });
+      })
+    }
 
-
+  getQuestionInfo(token: string, room_id: string, question_id: string) {
+    this.reqOpts = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        }
+      };
+      return new Promise((resolve, reject) => {
+        this.http.get(this.apiUrl + '/rooms/' + room_id + '/questions/' + question_id, this.reqOpts).subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+        });
+      })
+    }
 }

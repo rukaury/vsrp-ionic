@@ -1,10 +1,17 @@
+// Angular
 import { Component } from '@angular/core';
-import { Platform, AlertController } from 'ionic-angular';
+
+// Ionic
+import { Platform, MenuController, AlertController } from 'ionic-angular';
+
+// Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { Network } from '@ionic-native/network';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+
+// App
 import { GlobalVarsProvider} from "../providers/global-vars/global-vars";
 import { StorageProvider, User } from '../providers/storage/storage';
 import { HomePage } from '../pages/home/home';
@@ -13,18 +20,25 @@ import { HomePage } from '../pages/home/home';
   templateUrl: 'app.html'
 })
 export class MyApp {
+  
   rootPage:any;
 
-  constructor(private globalVars : GlobalVarsProvider, private settings : OpenNativeSettings, private network : Network, private alert :AlertController, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storageProvider: StorageProvider) {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
-      this.verifyConnectivity();
-      this.setRootPage();
-    });
+  constructor(private globalVars : GlobalVarsProvider, private settings : OpenNativeSettings, public network : Network, private alert :AlertController, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storageProvider: StorageProvider, private menuCtrl: MenuController) {
+	  this.initializeApp();
   }
+
+
+  initializeApp(){
+	this.platform.ready().then(() => {
+		// Okay, so the platform is ready and our plugins are available.
+		// Here you can do any higher level native things you might need.
+		this.statusBar.styleDefault();
+		this.splashScreen.hide();
+		this.verifyConnectivity();
+		this.setRootPage();
+		this.menuCtrl.enable(true);
+	  });
+  	}
 
   private verifyConnectivity() : void {
     this.network.onDisconnect().subscribe(() => {
@@ -69,5 +83,14 @@ export class MyApp {
     });
     showAlert.present();
   }
+
+  public presentAlert(title : string, message: string): void {
+		let alert = this.alert.create({
+			title:  title,
+			message: message,
+			buttons: ['Ok']
+		});
+		alert.present();
+	}
 }
 

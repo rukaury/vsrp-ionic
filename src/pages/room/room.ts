@@ -21,21 +21,22 @@ export class RoomPage {
   dataRetrieved: boolean;
 
   constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef) {
-    this.name = navParams.get('roomName');    
-    this.room_id = navParams.get('room_id');
-    this.storage.getUser().then((val) => {
-      this.token = val.token;
-      this.getRoomInfo();
-    });
-  }
-
-  getRoomInfo(){
     let loading = this.loadingCtrl.create({
       content: '',
       spinner: 'ios',
       cssClass: 'my-loading-class'
     });
     loading.present();
+    this.name = navParams.get('roomName');    
+    this.room_id = navParams.get('room_id');
+    this.storage.getUser().then((val) => {
+      this.token = val.token;
+      this.getRoomInfo();
+    });
+    loading.dismiss();
+  }
+
+  getRoomInfo(){
     this.restProvider.getRoomInfo(this.token, this.room_id)
       .then(data => {
         this.jsonData = data;
@@ -46,7 +47,6 @@ export class RoomPage {
         }
         this.dataRetrieved = true;
       });
-    loading.dismiss();
   }
 
   goToQuestionPage(question_id: string, room_id: string) {

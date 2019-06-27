@@ -23,7 +23,8 @@ export class QuestionPage {
   jsonData: any;
   dataRetrieved : boolean = false;
 
-  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef) {
+  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef) 
+  {
     this.room_id = navParams.get('room_id');
     this.question_id = navParams.get('question_id');
     this.storage.getUser().then((val) => {
@@ -33,12 +34,6 @@ export class QuestionPage {
   }
 
   getQuestionInfo(){
-    let loading = this.loadingCtrl.create({
-      content: '',
-      spinner: 'ios',
-      cssClass: 'my-loading-class'
-    });
-    loading.present();
     this.restProvider.getQuestionInfo(this.token, this.room_id, this.question_id)
       .then(data => {
         this.jsonData = data;

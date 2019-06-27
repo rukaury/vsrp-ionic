@@ -81,7 +81,7 @@ export class StorageProvider {
   }
 
   // DELETE
-  deleteUser(id: number): Promise<User> {
+  deleteUser(): Promise<User> {
     return this.storage.get(USER).then((aUser: User) => {
       if (!aUser) {
         return null;
