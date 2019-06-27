@@ -25,12 +25,19 @@ export class QuestionPage {
 
   constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef) 
   {
+    let loading = this.loadingCtrl.create({
+      content: '',
+      spinner: 'ios',
+      cssClass: 'my-loading-class'
+    });
+    loading.present();
     this.room_id = navParams.get('room_id');
     this.question_id = navParams.get('question_id');
     this.storage.getUser().then((val) => {
       this.token = val.token;
       this.getQuestionInfo();
     });
+    loading.dismiss();
   }
 
   getQuestionInfo(){
@@ -52,7 +59,6 @@ export class QuestionPage {
         }
         this.dataRetrieved = true;
       });
-    loading.dismiss();
   }
 
 }
