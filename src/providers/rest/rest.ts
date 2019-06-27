@@ -95,4 +95,20 @@ export class RestProvider {
         });
       })
     }
+
+    addRoom(room_name: string, course_code:string, token: string) {
+      this.reqOpts = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        };
+        return new Promise((resolve, reject) => {
+          this.http.post(this.apiUrl + '/rooms', JSON.stringify({room: {name:room_name, course_code: course_code}}), this.reqOpts).subscribe(data => {
+            resolve(data);
+          }, err => {
+            reject(err);
+          });
+        });
+      }
 }

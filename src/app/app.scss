@@ -66,6 +66,27 @@ ion-loading.my-loading-class {
   box-shadow: 0 1px 0 0 #f26e40 !important;
  }
 
+ .text_input{
+   width: 100%;
+   border: 0;
+   margin-bottom: 10px;
+ }
+
+ .add_btn{
+   width: 100%;
+   background: #f26e40;
+ }
+
+ .add_btn:hover{
+  background: #fff;
+  color: #f26e40;
+}
+
+.add_btn:focus{
+  background: #f26e40;
+  color: #fff;
+}
+
  @import "../assets/styles/css/bootstrap.css";
 
 

@@ -1,11 +1,12 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { NavController, LoadingController, NavParams, MenuController, AlertController  } from 'ionic-angular';
+import { ModalController, NavController, LoadingController, NavParams, MenuController, AlertController  } from 'ionic-angular';
 import { GlobalVarsProvider } from "../../providers/global-vars/global-vars";
 import { Room } from '../../Models/room';
 import { RoomPage } from '../room/room';
 import { RestProvider } from '../../providers/rest/rest';
 import { StorageProvider } from '../../providers/storage/storage';
 import { LoginPage } from '../login/login';
+import { AddRoomPage } from '../../components/add_room';
 
 @Component({
   selector: 'page-home',
@@ -20,7 +21,7 @@ export class HomePage {
   dataRetrieved: boolean;
   token = '';
 
-  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public menu : MenuController, private alert : AlertController)
+  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public menu : MenuController, private alert : AlertController, public modalCtrl: ModalController)
   {    
     let loading = this.loadingCtrl.create({
       content: '',
@@ -100,6 +101,11 @@ export class HomePage {
 			buttons: ['Ok']
 		});
 		alert.present();
+  }
+
+  addRoomModal() {
+    let contactModal = this.modalCtrl.create(AddRoomPage);
+    contactModal.present();
   }
 }
 

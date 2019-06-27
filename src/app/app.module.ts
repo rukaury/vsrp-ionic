@@ -22,6 +22,7 @@ import { RoomPage } from '../pages/room/room';
 import { QuestionPage } from '../pages/question/question';
 import { StorageProvider } from '../providers/storage/storage';
 import { IonicStorageModule } from '@ionic/storage';
+import { AddRoomPage } from '../components/add_room';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { IonicStorageModule } from '@ionic/storage';
     RoomPage,
     QuestionPage,
     SearchPipe,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    AddRoomPage
   ],
   imports: [
     BrowserModule,
@@ -59,6 +61,7 @@ import { IonicStorageModule } from '@ionic/storage';
     RoomPage,
     TabsPage,
     QuestionPage,
+    AddRoomPage
   ],
   providers: [
     StatusBar,
