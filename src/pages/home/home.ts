@@ -39,7 +39,7 @@ export class HomePage {
         this.username = aUser.username;
         this.password = aUser.password;
         this.token = aUser.token;
-        //this.getRooms();
+        this.getRooms();
       }).catch((err => {
         this.initializePage(count++);
       }));
@@ -97,7 +97,7 @@ export class HomePage {
   }
 
   addRoomModal() {
-    let contactModal = this.modalCtrl.create(AddRoomPage);
+    let contactModal = this.modalCtrl.create(AddRoomPage, {token : this.token});
     contactModal.present();
   }
 }

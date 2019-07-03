@@ -2,8 +2,8 @@
     <ion-navbar>
       <ion-title>{{name}}</ion-title>
       <ion-buttons end>
-        <button ion-button icon-only color="royal">
-          <ion-icon style="color:#f26e40" name="add-circle-outline"></ion-icon>
+        <button ion-button icon-only (click)="this.getRoomInfo()" color="main">
+          <ion-icon name="refresh"></ion-icon>
         </button>
       </ion-buttons>
     </ion-navbar>
@@ -39,12 +39,14 @@
             <div text-center>
               <ion-icon style="font-size:100px; color:#f26e40" name="sad"></ion-icon>
               <h1>Questions are not created yet.</h1>
+              <p style="font-size: 11px;color:#f26e40" (click)="addQuestionModal()">Add some</p>
             </div>
           </ng-template>
           
     </div>
 
-
-  
+    <ion-fab right bottom margin>
+        <button ion-fab (click)="addQuestionModal()" color='main'><ion-icon name="add"></ion-icon></button>
+      </ion-fab>  
   </ion-content>
   

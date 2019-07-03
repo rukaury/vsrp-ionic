@@ -1,10 +1,12 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import {NavController, NavParams, Navbar, Content, LoadingController } from 'ionic-angular';
+import {NavController, NavParams, Navbar, Content, LoadingController, ModalController } from 'ionic-angular';
 import { GlobalVarsProvider } from '../../providers/global-vars/global-vars';
 import { Question } from '../../Models/question';
 import { QuestionPage } from '../question/question';
 import { StorageProvider } from '../../providers/storage/storage';
 import { RestProvider } from '../../providers/rest/rest';
+import { HomePage } from '../home/home';
+import { AddQuestionPage } from '../../components/add_questions';
 
 @Component({
   selector: 'page-room',
@@ -20,7 +22,8 @@ export class RoomPage {
   token = '';
   dataRetrieved: boolean;
 
-  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef) {
+  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public modalCtrl: ModalController) 
+  {
     let loading = this.loadingCtrl.create({
       content: '',
       spinner: 'ios',
@@ -35,6 +38,17 @@ export class RoomPage {
     });
     loading.dismiss();
   }
+
+  ionViewDidLoad() {
+    this.navBar.backButtonClick = () => {
+        let pages = [
+          {
+            page: HomePage
+          }
+        ];
+        this.navCtrl.setPages(pages);
+      }
+    }
 
   getRoomInfo(){
     this.restProvider.getRoomInfo(this.token, this.room_id)
@@ -55,5 +69,10 @@ export class RoomPage {
       question_id: question_id,
       room_id : room_id
     });
+  }
+
+  addQuestionModal() {
+    let contactModal = this.modalCtrl.create(AddQuestionPage, {token : this.token, room_id: this.room_id, room_name: this.name});
+    contactModal.present();
   }
 }

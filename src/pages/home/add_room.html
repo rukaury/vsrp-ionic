@@ -1,8 +1,12 @@
 <ion-header class="page-header">
     <ion-navbar>
+        <ion-buttons start>
+            <button (click)="dismissModal()" style="color:#f26e40;background: #fff">Cancel</button>
+        </ion-buttons>
         <ion-title>Add room</ion-title>
+        
         <ion-buttons end>
-        <button ion-button icon-only>
+        <button ion-button icon-only [disabled]="disable_submit_btn">
             <ion-icon style="color:#f26e40" name="checkmark-circle-outline"></ion-icon>
         </button>
         </ion-buttons>
@@ -12,18 +16,16 @@
 <ion-content>
     <div margin>
         <div class="input-group input-group-lg">
-            <input class='text_input' [(ngModel)]="room_name" placeholder="Enter room name" id="room_name" type="text" name="room_name">
+            <input class='text_input' [(ngModel)]="room_name" placeholder="Enter room name" id="room_name" type="text" name="room_name" (ionChange)="disableSubmitBtn()">
         </div>
-        <ion-list>
-            <ion-item>
-                <ion-label>Course</ion-label>
-                <ion-select [(ngModel)]="course">
-                    <ion-option value="nes">NES</ion-option>
-                    <ion-option value="n64">Nintendo64</ion-option>
-                    <ion-option value="ps">PlayStation</ion-option>
-                </ion-select>
-            </ion-item>
-        </ion-list>
-        <button class="add_btn" ion-button>ADD</button>
+        <div class="input-group input-group-lg">
+            <ion-label>Course</ion-label>
+            <ion-select [(ngModel)]="course" (ionChange)="disableSubmitBtn()">
+                <ion-option value="cs12">CS 12</ion-option>
+                <ion-option value="seg3505">SEG 3505</ion-option>
+                <ion-option value="csi2510">CSI 2510</ion-option>
+            </ion-select>
+        </div>
+        <button class="add_btn" ion-button (click)="addRoom()">ADD ROOM</button>
     </div>
 </ion-content>

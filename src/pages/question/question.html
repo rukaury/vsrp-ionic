@@ -1,6 +1,6 @@
 <ion-header class="page-header">
     <ion-navbar>
-      <ion-title>Question</ion-title>
+      <ion-title>{{title}}</ion-title>
       <ion-buttons end>
         <button ion-button icon-only color="royal">
           <ion-icon style="color:#f26e40" name="star-outline"></ion-icon>
@@ -9,9 +9,9 @@
     </ion-navbar>
   </ion-header>
   
-  <ion-content padding>
+  <ion-content>
   
-    <ion-card *ngIf="!this.globalVars.getIsConnected()">
+    <ion-card *ngIf="!this.globalVars.getIsConnected()" margin>
       <ion-card-header>Offline</ion-card-header>
       <ion-card-content padding>
         <button class='btn btn-primary' (click)="this.globalVars.open('wifi')">Open Wifi settings</button>
@@ -19,23 +19,35 @@
     </ion-card>
   
     <div *ngIf="this.globalVars.getIsConnected()">
-      <h1>{{title}}</h1>
-      <h3>{{text}}</h3>
-      <div *ngIf="this.is_mcq">
-        <ion-list radio-group>
+      <div *ngIf="this.show_response" [ngClass]="(this.answer == this.answer_input ? 'success-msg correct-answer': 'success-msg wrong-answer')" padding>
+        <p *ngIf="this.answer == this.answer_input">Your answer is correct!</p>
+        <p *ngIf="this.answer != this.answer_input">Your answer is wrong!</p>
+      </div>
+      <h3 margin>{{text}}</h3>
+      <div *ngIf="this.is_mcq; else notMcq" margin>
+        <ion-list radio-group [(ngModel)]="answer_input">
           <ion-list-header>
             Answers
           </ion-list-header>
-          <ion-item *ngFor="let answer of allAnswers; let j = index">
-            <ion-label>{{answer.getText()}}</ion-label>
-            <ion-radio [value]="j"></ion-radio>
+          <ion-item *ngFor="let a of allAnswers; let j = index">
+            <ion-label>{{a.getText()}}</ion-label>
+            <ion-radio [disabled]="this.disable_answers" color="main" [value]="a.getText()"></ion-radio>
           </ion-item>
         </ion-list>
       </div>
-      <p *ngIf="!this.is_mcq">{{answer}}</p>
+
+      <ng-template #notMcq>
+        <div padding>
+          <ion-label color="main" stacked>Answer</ion-label>
+          <div class="input-group input-group-lg">
+              <ion-textarea name="answer_input" [(ngModel)]="answer_input" placeholder="Type your answer here ..." rows="5" style="border:dotted 2px #f26e40;"></ion-textarea>
+          </div>
+        </div>
+      </ng-template>
+      
       <div class="row bottom-view" margin>
           <div class="col s12">
-              <button class="btn btn-lg submit-btn" type="button" name="submit" (click)="goToHomePage(test)">Submit</button>
+              <button class="add_btn" type="button" name="submit" (click)="submitAnswer()" [disabled]="this.disable_answers">Submit</button>
           </div>
       </div>
     </div>

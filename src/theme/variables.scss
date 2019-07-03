@@ -38,7 +38,8 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  main:       #f26e40
 );
 
 
@@ -86,3 +87,10 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+// Override default theme
+// --------------------------------------------------
+
+$toast-ios-background:(#f26e40);
+$toast-md-background:(#f26e40);
+$toast-wp-background:(#f26e40);

@@ -1,0 +1,57 @@
+<ion-header class="page-header">
+    <ion-navbar>
+        <ion-buttons start>
+            <button (click)="dismissModal()" style="color:#f26e40;background: #fff">Cancel</button>
+        </ion-buttons>
+        <ion-title>Add Question</ion-title>
+        
+        <ion-buttons end>
+        <button ion-button icon-only [disabled]="disable_submit_btn" (click)="addQuestion()">
+            <ion-icon color="main" name="checkmark-circle-outline"></ion-icon>
+        </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+    
+<ion-content>
+    <div margin>
+        <ion-label color="main" stacked>Question title</ion-label>
+        <div class="input-group input-group-lg">
+            <input class='text_input' [(ngModel)]="title" placeholder="Enter question title" id="title" type="text" name="title">
+        </div>
+        <ion-label color="main" stacked>Question text</ion-label>
+        <div class="input-group input-group-lg">
+            <ion-textarea placeholder="Type your question here ..." rows="3" [(ngModel)]="text" name="text"></ion-textarea>
+        </div>
+        <ion-label color="main" stacked>Question type</ion-label>
+        <div class="input-group input-group-lg">
+            <ion-list radio-group [(ngModel)]="is_mcq" style="width:100%" no-lines>
+            
+                <ion-item>
+                    <ion-label>MCQ</ion-label>
+                    <ion-radio value="Yes" color="main" (ionSelect)="onQuestionTypeClick('Yes')"></ion-radio>
+                </ion-item>
+            
+                <ion-item>
+                    <ion-label>Text answer</ion-label>
+                    <ion-radio checked="true" value="No" color="main" (ionSelect)="onQuestionTypeClick('No')"></ion-radio>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div *ngIf="this.show_select_num" class="input-group input-group-lg">
+            <ion-label color="main"># of Answers</ion-label>
+            <ion-select [(ngModel)]="num_of_answers" (ionChange)="onSelectNumOfAnswers('Yes')">
+                <ion-option value="select">Pick a number</ion-option>
+                <ion-option value="1">1</ion-option>
+                <ion-option value="2">2</ion-option>
+                <ion-option value="3">3</ion-option>
+                <ion-option value="4">4</ion-option>
+                <ion-option value="5">5</ion-option>
+            </ion-select>
+        </div>
+        <div *ngIf="this.answers.length > 0">
+            <p *ngFor="let a of answers; let i = index" (click)="selectAnswer(i)" attr.id="answer_{{i+1}}">{{i+1}} . {{a.text}}</p>
+        </div>
+        <button *ngIf="this.show_button" class="add_btn" (click)="addAnswersPrompt()">ADD ANSWERS</button>
+    </div>
+</ion-content>
