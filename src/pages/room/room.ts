@@ -7,6 +7,7 @@ import { StorageProvider } from '../../providers/storage/storage';
 import { RestProvider } from '../../providers/rest/rest';
 import { HomePage } from '../home/home';
 import { AddQuestionPage } from '../../components/add_questions';
+import { InviteUserPage } from '../../components/invite_user';
 
 @Component({
   selector: 'page-room',
@@ -74,5 +75,10 @@ export class RoomPage {
   addQuestionModal() {
     let contactModal = this.modalCtrl.create(AddQuestionPage, {token : this.token, room_id: this.room_id, room_name: this.name});
     contactModal.present();
+  }
+  
+  inviteModal() {
+    let inviteModal = this.modalCtrl.create(InviteUserPage, {});
+    inviteModal.present();
   }
 }

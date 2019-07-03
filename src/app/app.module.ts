@@ -24,6 +24,7 @@ import { StorageProvider } from '../providers/storage/storage';
 import { IonicStorageModule } from '@ionic/storage';
 import { AddRoomPage } from '../components/add_room';
 import { AddQuestionPage } from '../components/add_questions';
+import { InviteUserPage } from '../components/invite_user';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { AddQuestionPage } from '../components/add_questions';
     SearchPipe,
     SafeHtmlPipe,
     AddRoomPage,
-    AddQuestionPage
+    AddQuestionPage,
+    InviteUserPage
   ],
   imports: [
     BrowserModule,
@@ -64,7 +66,8 @@ import { AddQuestionPage } from '../components/add_questions';
     TabsPage,
     QuestionPage,
     AddRoomPage,
-    AddQuestionPage
+    AddQuestionPage,
+    InviteUserPage
   ],
   providers: [
     StatusBar,

@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start>
+            <button (click)="dismissModal()" style="color:#f26e40;background: #fff">Cancel</button>
+        </ion-buttons>
+        <ion-title center text-center>Invite Users</ion-title>
+        <ion-buttons end *ngIf="this.globalVars.getIsConnected()">
+        <button ion-button
+                (click)="invite()" [disabled]="disable_submit_btn" color='main'><ion-icon
+                name="send"></ion-icon></button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+    
+<ion-content>
+    
+    <ion-card *ngIf="!this.globalVars.getIsConnected()">
+        <ion-card-header>Offline</ion-card-header>
+        <ion-card-content padding>
+        <button class='btn btn-primary' (click)="this.globalVars.open('wifi')">Open Wifi settings</button>
+        </ion-card-content>
+    </ion-card>
+    
+    <div *ngIf="this.globalVars.getIsConnected()">
+        <ion-searchbar [(ngModel)]="terms"></ion-searchbar>
+    
+        <ion-list radio-group *ngIf="this.dataRetrieved; else noShow">
+    
+        <ion-list-header>
+            Users 
+        </ion-list-header>
+    
+        <ion-item *ngFor="let username of users | search : terms">
+            <ion-icon name="contact" item-start></ion-icon>
+            <h1>{{username}}</h1>
+        </ion-item>
+    
+        </ion-list>
+    
+        <ng-template #noShow>
+        <ion-card padding>
+            <h1>No users are available.</h1>
+        </ion-card>
+        </ng-template>
+    </div>
+    
+    <ion-fab right bottom margin>
+        <button ion-fab (click)="invite()" color='main' [disabled]="disable_submit_btn"><ion-icon name="send"></ion-icon></button>
+    </ion-fab>
+    
+</ion-content>

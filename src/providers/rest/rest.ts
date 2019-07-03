@@ -64,6 +64,21 @@ export class RestProvider {
       })
     }
 
+    getUsers() {
+      this.reqOpts = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+        return new Promise((resolve, reject) => {
+          this.http.get(this.apiUrl + '/users', this.reqOpts).subscribe(data => {
+            resolve(data);
+          }, err => {
+            reject(err);
+          });
+        })
+      }
+
   getRoomInfo(token: string, room_id: string) {
     this.reqOpts = {
         headers: {

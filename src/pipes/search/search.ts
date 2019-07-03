@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Day } from '../../Models/day';
 
 /**
  * Generated class for the SearchPipe pipe.
@@ -13,12 +12,12 @@ export class SearchPipe implements PipeTransform {
   /**
    * Takes a value and makes it lowercase.
    */
-  transform(items: Day[], terms: string): any[] {
+  transform(items: string[], terms: string): any[] {
     if(!items) return [];
     if(!terms) return items;
     terms = terms.toLowerCase();
     return items.filter( it => {
-      return it.getDayWeek().toLowerCase().includes(terms);
+      return it.toLowerCase().includes(terms);
     });
   }
 }
