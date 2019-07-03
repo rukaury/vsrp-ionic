@@ -127,7 +127,23 @@ export class RestProvider {
         });
       }
 
-      addQuestion(room_id: string, title :string, text: string, is_mcq: boolean, answers: Array<any>, token: string) {
+    addQuestion(room_id: string, title :string, text: string, is_mcq: boolean, answers: Array<any>, token: string) {
+      this.reqOpts = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        };
+        return new Promise((resolve, reject) => {
+          this.http.post(this.apiUrl + '/rooms/' + room_id + '/questions', JSON.stringify({question: {title:title, text: text, is_mcq:is_mcq, answers: answers}}), this.reqOpts).subscribe(data => {
+            resolve(data);
+          }, err => {
+            reject(err);
+          });
+        });
+      }
+
+      inviteUsers(token: string, room_id: string, users: Array<string>) {
         this.reqOpts = {
             headers: {
               'Content-Type': 'application/json',
@@ -135,7 +151,7 @@ export class RestProvider {
             }
           };
           return new Promise((resolve, reject) => {
-            this.http.post(this.apiUrl + '/rooms/' + room_id + '/questions', JSON.stringify({question: {title:title, text: text, is_mcq:is_mcq, answers: answers}}), this.reqOpts).subscribe(data => {
+            this.http.post(this.apiUrl + '/rooms/' + room_id + '/invite', JSON.stringify({users:users}), this.reqOpts).subscribe(data => {
               resolve(data);
             }, err => {
               reject(err);

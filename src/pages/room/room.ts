@@ -78,7 +78,7 @@ export class RoomPage {
   }
   
   inviteModal() {
-    let inviteModal = this.modalCtrl.create(InviteUserPage, {});
+    let inviteModal = this.modalCtrl.create(InviteUserPage, {token : this.token, room_id: this.room_id});
     inviteModal.present();
   }
 }

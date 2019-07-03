@@ -83,5 +83,5 @@ export class QuestionPage {
       position: position
     });
     toast.present();
-    }
+  }
 }

@@ -6,7 +6,7 @@
         <ion-title center text-center>Invite Users</ion-title>
         <ion-buttons end *ngIf="this.globalVars.getIsConnected()">
         <button ion-button
-                (click)="invite()" [disabled]="disable_submit_btn" color='main'><ion-icon
+                (click)="inviteUsers()" [disabled]="disable_submit_btn" color='main'><ion-icon
                 name="send"></ion-icon></button>
         </ion-buttons>
     </ion-navbar>
@@ -45,7 +45,7 @@
     </div>
     
     <ion-fab right bottom margin>
-        <button ion-fab (click)="invite()" color='main' [disabled]="disable_submit_btn"><ion-icon name="send"></ion-icon></button>
+        <button ion-fab (click)="inviteUsers()" color='main' [disabled]="disable_submit_btn"><ion-icon name="send"></ion-icon></button>
     </ion-fab>
     
 </ion-content>
