@@ -1,5 +1,5 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { NavController, NavParams, Navbar, Content, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, Navbar, Content, LoadingController, ToastController } from 'ionic-angular';
 import { GlobalVarsProvider } from '../../providers/global-vars/global-vars';
 import { Answer } from '../../Models/answer';
 import { StorageProvider } from '../../providers/storage/storage';
@@ -26,7 +26,7 @@ export class QuestionPage {
   show_response : boolean = false;
   disable_answers: boolean = false;
 
-  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public toastCtrl: ToastController, private alert : AlertController) 
+  constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public toastCtrl: ToastController) 
   {
     let loading = this.loadingCtrl.create({
       content: '',

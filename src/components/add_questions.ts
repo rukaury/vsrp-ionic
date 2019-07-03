@@ -44,11 +44,9 @@ export class AddQuestionPage {
           cssClass: 'my-loading-class'
         });
         loading.present();
-        this.restProvider.addQuestion(this.room_id, this.title, this.text, (this.is_mcq == "Yes" ? true : false), this.answers, this.token).then(data => {
-            let jsonData : any = data;
-            let room_id : string = jsonData.room.room_id;
+        this.restProvider.addQuestion(this.room_id, this.title, this.text, (this.is_mcq == "Yes" ? true : false), this.answers, this.token).then(() => {
             this.dataRetrieved = true;
-            this.goToRoomPage(room_id, this.room_name);
+            this.goToRoomPage(this.room_id, this.room_name);
           }).catch((err) => {
               console.log(err);
           });
