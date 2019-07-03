@@ -14,7 +14,7 @@ export class InviteUserPage {
     dataRetrieved: boolean;
     disable_submit_btn: boolean = true;
     jsonData: any;
-    invites: string = "";
+    invites: string[] = [];
 
     constructor(public loadingCtrl: LoadingController, public viewCtrl: ViewController, private restProvider: RestProvider, private navCtrl: NavController, private navParams: NavParams, private alert : AlertController, public globalVars : GlobalVarsProvider){
         this.dataRetrieved = false;
@@ -54,7 +54,20 @@ export class InviteUserPage {
         });
     }
 
-    disableSubmitBtn(){
-        this.disable_submit_btn = (this.invites == "") ? true : false;
+    addUser(username){
+        let elem = document.getElementById(username);
+        let style = elem.getAttribute('style');
+        if(style){
+            elem.removeAttribute('style');
+            const index: number = this.invites.indexOf(username);
+            if (index !== -1) {
+                this.invites.splice(index, 1);
+            } 
+        }
+        else{
+            elem.setAttribute('style', 'color:#f26e40');
+            this.invites.push(username);
+        }
+        this.disable_submit_btn = this.invites.length == 0 ? true : false;
     }
 }

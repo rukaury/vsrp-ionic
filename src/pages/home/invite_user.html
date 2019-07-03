@@ -30,7 +30,7 @@
             Users 
         </ion-list-header>
     
-        <ion-item *ngFor="let username of users | search : terms">
+        <ion-item *ngFor="let username of users | search : terms" (click)="addUser(username)" [id]="username">
             <ion-icon name="contact" item-start></ion-icon>
             <h1>{{username}}</h1>
         </ion-item>
