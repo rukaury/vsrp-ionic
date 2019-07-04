@@ -24,7 +24,7 @@
   </ion-card>
 
   <div *ngIf="this.globalVars.getIsConnected()">
-    <div *ngIf="!(this.allRooms === undefined || this.allRooms.length == 0); else noQuestions">
+    <div *ngIf="!(this.allRooms === undefined || this.allRooms.length == 0); else noRooms">
       <p padding-left="1 px" padding-top="1px">Active</p>
       <ion-card *ngFor="let room of allRooms" (click)="goToRoomPage(room.getUuid(), room.getName())" tappable>
         <img src="https://source.unsplash.com/1600x900/?college,math,science,law"/>
@@ -38,8 +38,8 @@
     <ng-template #noRooms>
         <div text-center>
           <ion-icon style="font-size:100px; color:#f26e40" name="sad"></ion-icon>
-          <h1>Rooms are not created yet.</h1>
-          <p style="font-size: 11px;color:#f26e40" (click)="addRoomModal()">Add some</p>
+          <h1>You currently not participating in a room.</h1>
+          <p style="font-size: 11px;color:#f26e40" (click)="addRoomModal()">Create one</p>
         </div>
       </ng-template>
   </div>

@@ -18,14 +18,13 @@
         <div class="input-group input-group-lg">
             <input class='text_input' [(ngModel)]="room_name" placeholder="Enter room name" id="room_name" type="text" name="room_name" (ionChange)="disableSubmitBtn()">
         </div>
-        <div class="input-group input-group-lg">
-            <ion-label>Course</ion-label>
-            <ion-select [(ngModel)]="course" (ionChange)="disableSubmitBtn()">
-                <ion-option value="cs12">CS 12</ion-option>
-                <ion-option value="seg3505">SEG 3505</ion-option>
-                <ion-option value="csi2510">CSI 2510</ion-option>
-            </ion-select>
-        </div>
+        <ion-label>Course</ion-label>
+        <ion-list radio-group [(ngModel)]="course">
+            <ion-item *ngFor="let course of courses">
+                <ion-label>{{course.code}}</ion-label>
+                <ion-radio color="main" [value]="course.code"></ion-radio>
+            </ion-item>
+        </ion-list>
         <button class="add_btn" ion-button (click)="addRoom()">ADD ROOM</button>
     </div>
 </ion-content>

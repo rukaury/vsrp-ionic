@@ -14,9 +14,19 @@ export class AddRoomPage {
     dataRetrieved: boolean;
     token: string;
     disable_submit_btn: boolean = true;
+    courses : Array<any>;
+    jsonData: any;
 
     constructor(public loadingCtrl: LoadingController, public viewCtrl: ViewController, private restProvider: RestProvider, private navCtrl: NavController, private navParams: NavParams, private alert : AlertController){
-        this.token = navParams.get('token');
+        let loading = this.loadingCtrl.create({
+            content: '',
+            spinner: 'ios',
+            cssClass: 'my-loading-class'
+        });
+        loading.present();
+        this.token = this.navParams.get('token');
+        this.getCourses('90cb9867c2894786bfa4dfc8a6884c1a');
+        loading.dismiss();
     }
 
     dismissModal() {
@@ -48,6 +58,17 @@ export class AddRoomPage {
           });
         loading.dismiss();
       }
+
+    getCourses(school_id:string){
+        this.restProvider.getCourses(school_id).then(data => {
+            this.jsonData = data;
+            this.courses = new Array(this.jsonData.courses.length);
+            for (let i = 0; i < this.jsonData.courses.length; i++) {
+                this.courses[i] = this.jsonData.courses[i];
+            }
+            this.dataRetrieved = true;
+        });
+    }
 
     goToRoomPage(room_id: string, name: string) {
         room_id = room_id || "";

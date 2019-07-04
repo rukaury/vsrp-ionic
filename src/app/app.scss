@@ -155,3 +155,8 @@ ion-loading.my-loading-class {
   color:#f26e40 !important;
 }
 
+.swiper-pagination-bullet-active{
+  background: color($colors, light) !important;
+  opacity: 1;
+}
+

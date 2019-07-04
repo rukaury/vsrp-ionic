@@ -31,6 +31,21 @@ export class RestProvider {
         });
       });
     }
+  
+    register(username: string, password:string, f_name: string, l_name: string, school_id: string) {
+      this.reqOpts = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+        return new Promise((resolve, reject) => {
+          this.http.post(this.apiUrl + '/auth/register', JSON.stringify({username: username, password: password, first_name: f_name, last_name: l_name, school_id: school_id}), this.reqOpts).subscribe(data => {
+            resolve(data);
+          }, err => {
+            reject(err);
+          });
+        });
+      }
 
   logout(token: string) {
     this.reqOpts = {
@@ -78,6 +93,21 @@ export class RestProvider {
           });
         })
       }
+
+  getCourses(school_id: string) {
+    this.reqOpts = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      return new Promise((resolve, reject) => {
+        this.http.get(this.apiUrl + '/schools/' + school_id + '/courses', this.reqOpts).subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+        });
+      })
+    }
 
   getRoomInfo(token: string, room_id: string) {
     this.reqOpts = {
