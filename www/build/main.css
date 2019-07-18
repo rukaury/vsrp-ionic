@@ -28192,6 +28192,21 @@ page-question .wrong-answer {
   background: #dc3545 !important;
 }
 
+page-question .warning {
+  color: black;
+  background: #f7ecb5 !important;
+}
+
+page-question .bg-light-green {
+  background: #dff0d8;
+  margin-bottom: 5px;
+}
+
+page-question .bg-light-red {
+  background: #f2dede;
+  margin-bottom: 5px;
+}
+
 blue-bar-bttm {
   border-bottom: 2px solid #488aff;
 }

@@ -18,13 +18,15 @@ export class QuestionPage {
   allAnswers : Answer[];
   answer_input : string = "";
   answer : string = "";
+  answered : string = "";
   token = ';'
   room_id : string;
   question_id : string;
   jsonData: any;
   dataRetrieved : boolean = false;
   show_response : boolean = false;
-  disable_answers: boolean = false;
+  show_responded : boolean = false;
+  disable_answers: boolean;
 
   constructor(private storage: StorageProvider, private restProvider: RestProvider, public navParams: NavParams, public globalVars : GlobalVarsProvider, public navCtrl: NavController, public loadingCtrl : LoadingController, public cd : ChangeDetectorRef, public toastCtrl: ToastController) 
   {
@@ -54,7 +56,10 @@ export class QuestionPage {
           this.allAnswers = new Array(this.jsonData.answers.length);
           for (let i = 0; i < this.jsonData.answers.length; i++) {
             let an_answer = new Answer(this.jsonData.answers[i].uuid, this.jsonData.answers[i].text, this.jsonData.answers[i].correct);
-            this.answer = an_answer.getIsCorrect() ? an_answer.getText() : this.answer; 
+            this.answer = an_answer.getIsCorrect() ? an_answer.getUuid() : this.answer; 
+            this.answered = this.jsonData.answers[i].answered != undefined ? this.jsonData.answers[i].text : this.answered;
+            this.disable_answers = this.answered == "" ? false : true;
+            this.show_responded = this.answered == "" ? false : true;
             this.allAnswers[i] = an_answer;
           } 
         }
@@ -70,6 +75,11 @@ export class QuestionPage {
     else if(this.is_mcq && this.answer_input != ""){
       this.show_response = true;
       this.disable_answers = true;
+      this.restProvider.associateAnswer(this.room_id, this.question_id, this.answer_input, this.token).then(data => {
+        this.jsonData = data;
+      }).catch(err => {
+        console.log(err);
+      })
     }
     else{
       this.presentToast('Select an answer', 3000, 'top');

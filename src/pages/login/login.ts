@@ -17,7 +17,7 @@ export class LoginPage {
   dataRetrieved: boolean;
   show_login: boolean;
   show_registration: boolean;
-  school_id: string = "90cb9867c2894786bfa4dfc8a6884c1a";
+  school_id: string = "4d40ec11b66e4a3abbc2182ff5dee371";
   f_name: string;
   l_name: string;
   username: '';

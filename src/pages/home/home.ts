@@ -38,7 +38,7 @@ export class HomePage {
       this.storage.getUser().then((aUser) => {
         this.username = aUser.username;
         this.password = aUser.password;
-        this.token = aUser.token;
+        this.token = aUser.token;  
         this.getRooms();
       }).catch((err => {
         this.initializePage(count++);

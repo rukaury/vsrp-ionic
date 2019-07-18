@@ -23,15 +23,18 @@
         <p *ngIf="this.answer == this.answer_input">Your answer is correct!</p>
         <p *ngIf="this.answer != this.answer_input">Your answer is wrong!</p>
       </div>
+      <div *ngIf="this.show_responded" [ngClass]="(this.answer == this.answer_input ? 'success-msg correct-answer': 'success-msg warning')" padding>
+        <p>You responded: {{this.answered}}</p>
+      </div>
       <h3 margin>{{text}}</h3>
       <div *ngIf="this.is_mcq; else notMcq" margin>
         <ion-list radio-group [(ngModel)]="answer_input">
           <ion-list-header>
             Answers
           </ion-list-header>
-          <ion-item *ngFor="let a of allAnswers; let j = index">
+          <ion-item *ngFor="let a of allAnswers; let j = index" [ngClass]="(a.getUuid() == this.answer ? 'bg-light-green' : (a.getText() == this.answered && this.answered != this.answer) ? 'bg-light-red' : '')">
             <ion-label>{{a.getText()}}</ion-label>
-            <ion-radio [disabled]="this.disable_answers" color="main" [value]="a.getText()"></ion-radio>
+            <ion-radio [disabled]="this.disable_answers" color="main" [value]="a.getUuid()"></ion-radio>
           </ion-item>
         </ion-list>
       </div>

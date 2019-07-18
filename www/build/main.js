@@ -223,6 +223,21 @@ var RestProvider = /** @class */ (function () {
             });
         });
     };
+    RestProvider.prototype.associateAnswer = function (room_id, question_id, answer_id, token) {
+        var _this = this;
+        this.reqOpts = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        };
+        return new Promise(function (resolve, reject) {
+            _this.http.post(_this.apiUrl + '/rooms/' + room_id + '/questions/' + question_id + '/answers/' + answer_id, {}, _this.reqOpts).subscribe(function (data) {
+                resolve(data);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
     RestProvider.prototype.inviteUsers = function (token, room_id, users) {
         var _this = this;
         this.reqOpts = {
@@ -241,9 +256,10 @@ var RestProvider = /** @class */ (function () {
     };
     RestProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* AlertController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object])
     ], RestProvider);
     return RestProvider;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=rest.js.map
@@ -285,7 +301,7 @@ var LoginPage = /** @class */ (function () {
         this.loadingCtrl = loadingCtrl;
         this.alert = alert;
         this.user = {};
-        this.school_id = "90cb9867c2894786bfa4dfc8a6884c1a";
+        this.school_id = "4d40ec11b66e4a3abbc2182ff5dee371";
         this.dataRetrieved = false;
         this.show_login = true;
         this.show_registration = false;
@@ -424,10 +440,11 @@ var QuestionPage = /** @class */ (function () {
         this.toastCtrl = toastCtrl;
         this.answer_input = "";
         this.answer = "";
+        this.answered = "";
         this.token = ';';
         this.dataRetrieved = false;
         this.show_response = false;
-        this.disable_answers = false;
+        this.show_responded = false;
         var loading = this.loadingCtrl.create({
             content: '',
             spinner: 'ios',
@@ -454,7 +471,10 @@ var QuestionPage = /** @class */ (function () {
                 _this.allAnswers = new Array(_this.jsonData.answers.length);
                 for (var i = 0; i < _this.jsonData.answers.length; i++) {
                     var an_answer = new __WEBPACK_IMPORTED_MODULE_3__Models_answer__["a" /* Answer */](_this.jsonData.answers[i].uuid, _this.jsonData.answers[i].text, _this.jsonData.answers[i].correct);
-                    _this.answer = an_answer.getIsCorrect() ? an_answer.getText() : _this.answer;
+                    _this.answer = an_answer.getIsCorrect() ? an_answer.getUuid() : _this.answer;
+                    _this.answered = _this.jsonData.answers[i].answered != undefined ? _this.jsonData.answers[i].text : _this.answered;
+                    _this.disable_answers = _this.answered == "" ? false : true;
+                    _this.show_responded = _this.answered == "" ? false : true;
                     _this.allAnswers[i] = an_answer;
                 }
             }
@@ -462,6 +482,7 @@ var QuestionPage = /** @class */ (function () {
         });
     };
     QuestionPage.prototype.submitAnswer = function () {
+        var _this = this;
         if (!this.is_mcq) {
             this.presentToast('Question was submited successfully', 5000, 'middle');
             this.navCtrl.pop();
@@ -469,6 +490,11 @@ var QuestionPage = /** @class */ (function () {
         else if (this.is_mcq && this.answer_input != "") {
             this.show_response = true;
             this.disable_answers = true;
+            this.restProvider.associateAnswer(this.room_id, this.question_id, this.answer_input, this.token).then(function (data) {
+                _this.jsonData = data;
+            }).catch(function (err) {
+                console.log(err);
+            });
         }
         else {
             this.presentToast('Select an answer', 3000, 'top');
@@ -484,19 +510,20 @@ var QuestionPage = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Navbar */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Navbar */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Navbar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Navbar */]) === "function" && _a || Object)
     ], QuestionPage.prototype, "navBar", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]) === "function" && _b || Object)
     ], QuestionPage.prototype, "content", void 0);
     QuestionPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-question',template:/*ion-inline-start:"C:\Users\rukau\Documents\Projects\Ionic\vsrp\src\pages\question\question.html"*/'<ion-header class="page-header">\n    <ion-navbar>\n      <ion-title>{{title}}</ion-title>\n      <ion-buttons end>\n        <button ion-button icon-only color="royal">\n          <ion-icon style="color:#f26e40" name="star-outline"></ion-icon>\n        </button>\n      </ion-buttons>\n    </ion-navbar>\n  </ion-header>\n  \n  <ion-content>\n  \n    <ion-card *ngIf="!this.globalVars.getIsConnected()" margin>\n      <ion-card-header>Offline</ion-card-header>\n      <ion-card-content padding>\n        <button class=\'btn btn-primary\' (click)="this.globalVars.open(\'wifi\')">Open Wifi settings</button>\n      </ion-card-content>\n    </ion-card>\n  \n    <div *ngIf="this.globalVars.getIsConnected()">\n      <div *ngIf="this.show_response" [ngClass]="(this.answer == this.answer_input ? \'success-msg correct-answer\': \'success-msg wrong-answer\')" padding>\n        <p *ngIf="this.answer == this.answer_input">Your answer is correct!</p>\n        <p *ngIf="this.answer != this.answer_input">Your answer is wrong!</p>\n      </div>\n      <h3 margin>{{text}}</h3>\n      <div *ngIf="this.is_mcq; else notMcq" margin>\n        <ion-list radio-group [(ngModel)]="answer_input">\n          <ion-list-header>\n            Answers\n          </ion-list-header>\n          <ion-item *ngFor="let a of allAnswers; let j = index">\n            <ion-label>{{a.getText()}}</ion-label>\n            <ion-radio [disabled]="this.disable_answers" color="main" [value]="a.getText()"></ion-radio>\n          </ion-item>\n        </ion-list>\n      </div>\n\n      <ng-template #notMcq>\n        <div padding>\n          <ion-label color="main" stacked>Answer</ion-label>\n          <div class="input-group input-group-lg">\n              <ion-textarea name="answer_input" [(ngModel)]="answer_input" placeholder="Type your answer here ..." rows="5" style="border:dotted 2px #f26e40;"></ion-textarea>\n          </div>\n        </div>\n      </ng-template>\n      \n      <div class="row bottom-view" margin>\n          <div class="col s12">\n              <button class="add_btn" type="button" name="submit" (click)="submitAnswer()" [disabled]="this.disable_answers">Submit</button>\n          </div>\n      </div>\n    </div>\n  \n  </ion-content>\n  '/*ion-inline-end:"C:\Users\rukau\Documents\Projects\Ionic\vsrp\src\pages\question\question.html"*/,
+            selector: 'page-question',template:/*ion-inline-start:"C:\Users\rukau\Documents\Projects\Ionic\vsrp\src\pages\question\question.html"*/'<ion-header class="page-header">\n    <ion-navbar>\n      <ion-title>{{title}}</ion-title>\n      <ion-buttons end>\n        <button ion-button icon-only color="royal">\n          <ion-icon style="color:#f26e40" name="star-outline"></ion-icon>\n        </button>\n      </ion-buttons>\n    </ion-navbar>\n  </ion-header>\n  \n  <ion-content>\n  \n    <ion-card *ngIf="!this.globalVars.getIsConnected()" margin>\n      <ion-card-header>Offline</ion-card-header>\n      <ion-card-content padding>\n        <button class=\'btn btn-primary\' (click)="this.globalVars.open(\'wifi\')">Open Wifi settings</button>\n      </ion-card-content>\n    </ion-card>\n  \n    <div *ngIf="this.globalVars.getIsConnected()">\n      <div *ngIf="this.show_response" [ngClass]="(this.answer == this.answer_input ? \'success-msg correct-answer\': \'success-msg wrong-answer\')" padding>\n        <p *ngIf="this.answer == this.answer_input">Your answer is correct!</p>\n        <p *ngIf="this.answer != this.answer_input">Your answer is wrong!</p>\n      </div>\n      <div *ngIf="this.show_responded" [ngClass]="(this.answer == this.answer_input ? \'success-msg correct-answer\': \'success-msg warning\')" padding>\n        <p>You responded: {{this.answered}}</p>\n      </div>\n      <h3 margin>{{text}}</h3>\n      <div *ngIf="this.is_mcq; else notMcq" margin>\n        <ion-list radio-group [(ngModel)]="answer_input">\n          <ion-list-header>\n            Answers\n          </ion-list-header>\n          <ion-item *ngFor="let a of allAnswers; let j = index" [ngClass]="(a.getUuid() == this.answer ? \'bg-light-green\' : (a.getText() == this.answered && this.answered != this.answer) ? \'bg-light-red\' : \'\')">\n            <ion-label>{{a.getText()}}</ion-label>\n            <ion-radio [disabled]="this.disable_answers" color="main" [value]="a.getUuid()"></ion-radio>\n          </ion-item>\n        </ion-list>\n      </div>\n\n      <ng-template #notMcq>\n        <div padding>\n          <ion-label color="main" stacked>Answer</ion-label>\n          <div class="input-group input-group-lg">\n              <ion-textarea name="answer_input" [(ngModel)]="answer_input" placeholder="Type your answer here ..." rows="5" style="border:dotted 2px #f26e40;"></ion-textarea>\n          </div>\n        </div>\n      </ng-template>\n      \n      <div class="row bottom-view" margin>\n          <div class="col s12">\n              <button class="add_btn" type="button" name="submit" (click)="submitAnswer()" [disabled]="this.disable_answers">Submit</button>\n          </div>\n      </div>\n    </div>\n  \n  </ion-content>\n  '/*ion-inline-end:"C:\Users\rukau\Documents\Projects\Ionic\vsrp\src\pages\question\question.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__providers_storage_storage__["a" /* StorageProvider */], __WEBPACK_IMPORTED_MODULE_5__providers_rest_rest__["a" /* RestProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_global_vars_global_vars__["a" /* GlobalVarsProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */]])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__providers_storage_storage__["a" /* StorageProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_storage_storage__["a" /* StorageProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__providers_rest_rest__["a" /* RestProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_rest_rest__["a" /* RestProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__providers_global_vars_global_vars__["a" /* GlobalVarsProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_global_vars_global_vars__["a" /* GlobalVarsProvider */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */]) === "function" && _k || Object])
     ], QuestionPage);
     return QuestionPage;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 }());
 
 //# sourceMappingURL=question.js.map
@@ -823,7 +850,7 @@ var AddRoomPage = /** @class */ (function () {
         });
         loading.present();
         this.token = this.navParams.get('token');
-        this.getCourses('90cb9867c2894786bfa4dfc8a6884c1a');
+        this.getCourses('4d40ec11b66e4a3abbc2182ff5dee371');
         loading.dismiss();
     }
     AddRoomPage.prototype.dismissModal = function () {

@@ -25,7 +25,7 @@ export class AddRoomPage {
         });
         loading.present();
         this.token = this.navParams.get('token');
-        this.getCourses('90cb9867c2894786bfa4dfc8a6884c1a');
+        this.getCourses('4d40ec11b66e4a3abbc2182ff5dee371');
         loading.dismiss();
     }
 

@@ -172,6 +172,22 @@ export class RestProvider {
           });
         });
       }
+      
+      
+    associateAnswer(room_id: string, question_id :string, answer_id: string, token: string) {
+      this.reqOpts = {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        };
+        return new Promise((resolve, reject) => {
+          this.http.post(this.apiUrl + '/rooms/' + room_id + '/questions/' + question_id + '/answers/' + answer_id, {}, this.reqOpts).subscribe(data => {
+            resolve(data);
+          }, err => {
+            reject(err);
+          });
+        });
+      }
 
       inviteUsers(token: string, room_id: string, users: Array<string>) {
         this.reqOpts = {
